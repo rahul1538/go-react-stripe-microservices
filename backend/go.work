@@ -1,0 +1,9 @@
+go 1.25.5 // Use your installed Go version
+
+use (
+	./api-gateway
+	./auth-service
+	./payment-service
+	
+	./webhook-service
+)

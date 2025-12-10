@@ -1,0 +1,27 @@
+# --- Go (Backend) ---
+/backend/**/bin/
+/backend/**/obj/
+/backend/**/tmp/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+vendor/
+
+# --- React (Frontend) ---
+/frontend/node_modules/
+/frontend/build/
+/frontend/dist/
+/frontend/.eslintcache
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# --- Environment Variables (NEVER UPLOAD THESE!) ---
+.env
+.DS_Store
+.idea/
+.vscode/
