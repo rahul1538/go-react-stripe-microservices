@@ -17,7 +17,7 @@ const Dashboard = () => {
   return (
     <div style={styles.container}>
       <header style={styles.header}>
-        <h3>🚀 SaaS Pricing Demo</h3>
+        <h3>🚀DASHBOARD</h3>
         <button onClick={handleLogout} style={styles.logoutBtn}>Logout</button>
       </header>
 
