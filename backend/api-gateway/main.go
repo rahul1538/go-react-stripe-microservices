@@ -46,6 +46,7 @@ func main() {
 	}
 
 	// 4. Setup Reverse Proxy Routes
+	// This fixes the 404 by passing the prefix to strip
 	r.Any("/auth/*proxyPath", proxyRequest(authURL, "/auth"))
 	r.Any("/payments/*proxyPath", proxyRequest(paymentURL, "/payments"))
 	r.Any("/webhook/*proxyPath", proxyRequest(webhookURL, "/webhook"))
@@ -74,7 +75,7 @@ func proxyRequest(target string, prefixToStrip string) gin.HandlerFunc {
 		proxy := httputil.NewSingleHostReverseProxy(remote)
 		proxy.Director = func(req *http.Request) {
 
-			// --- CRITICAL PATH STRIPPING LOGIC ---
+			// --- CRITICAL PATH STRIPPING LOGIC (The 404 Fix) ---
 			originalPath := req.URL.Path
 
 			// Strip the prefix (e.g., remove "/auth" to get "/register")
