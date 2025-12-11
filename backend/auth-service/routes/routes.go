@@ -13,13 +13,15 @@ func SetupRoutes(jwtSecret string) *gin.Engine {
 		c.JSON(200, gin.H{"message": "Auth Service is running!"})
 	})
 
-	// Auth Routes
-	// Auth Routes
-	auth := r.Group("/auth")
-	{
-		auth.POST("/register", controllers.Register)
-		auth.POST("/login", controllers.Login) // <--- I removed the "//" so it is active now!
-	}
+	// Auth Routes - NO GROUP NEEDED
+	// The API Gateway has stripped the "/auth" prefix, so the Auth Service should
+	// listen for the root paths: /register and /login.
+
+	// Fix: Changed from auth.POST("/register", ...) to r.POST("/register", ...)
+	r.POST("/register", controllers.Register)
+	r.POST("/login", controllers.Login)
+
+	// Removed the redundant 'auth := r.Group("/auth")' block entirely.
 
 	return r
 }
