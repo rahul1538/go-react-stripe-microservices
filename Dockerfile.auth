@@ -2,12 +2,14 @@ FROM golang:1.23-alpine AS builder
 RUN apk add --no-cache git
 WORKDIR /app
 COPY . .
+
+# CRITICAL FIX: Go inside the folder first!
+WORKDIR /app/backend/auth-service
 RUN go mod download
-# Hardcoded path for Auth Service
-RUN go build -o server ./backend/auth-service
+RUN go build -o /server main.go
 
 FROM alpine:latest
 WORKDIR /root/
-COPY --from=builder /app/server .
+COPY --from=builder /server .
 EXPOSE 8083
 CMD ["./server"]
