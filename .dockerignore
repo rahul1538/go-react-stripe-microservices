@@ -1,0 +1,8 @@
+# Ignore frontend files (critical for backend builds)
+frontend/
+node_modules/
+.git/
+.vscode/
+
+# Ignore local environment files
+.env
