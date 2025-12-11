@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { register } from '../api/api';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // <-- CRITICAL FIX: Import Link
 
 const Register = () => {
   const [form, setForm] = useState({ name: '', email: '', password: '' });
@@ -13,9 +13,10 @@ const Register = () => {
     try {
       await register(form);
       alert('Registration Successful! Please Login.');
-      navigate('/');
+      navigate('/'); // Redirect to login page on success
     } catch (err) {
-      const errorMessage = err.response?.data?.error || 'Something went wrong';
+      // Improved error handling to safely check for response data
+      const errorMessage = err.response?.data?.error || 'Something went wrong. Check console.';
       alert('Error: ' + errorMessage);
     } finally {
       setLoading(false);
@@ -146,7 +147,7 @@ const Register = () => {
 
         <div style={styles.linkText}>
           Already have an account? 
-          <a href="/" style={styles.link}>Login here</a>
+          <Link to="/" style={styles.link}>Login here</Link> {/* <-- CRITICAL FIX APPLIED HERE */}
         </div>
       </div>
     </div>
