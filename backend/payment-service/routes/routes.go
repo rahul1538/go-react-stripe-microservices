@@ -12,11 +12,9 @@ func SetupRoutes() *gin.Engine {
 		c.JSON(200, gin.H{"message": "Payment Service is Running"})
 	})
 
-	paymentGroup := r.Group("/payments")
-	{
-		// We renamed this route to fit the new method
-		paymentGroup.POST("/create-checkout-session", controllers.CreateCheckoutSession)
-	}
+	// Fix: Removed the paymentGroup. The route should be at the root path
+	// since the API Gateway strips the prefix.
+	r.POST("/create-checkout-session", controllers.CreateCheckoutSession)
 
 	return r
 }

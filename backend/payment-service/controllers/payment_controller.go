@@ -46,8 +46,8 @@ func CreateCheckoutSession(c *gin.Context) {
 		},
 		Mode: stripe.String(string(stripe.CheckoutSessionModePayment)),
 		// Redirect back to React Dashboard after payment
-		SuccessURL: stripe.String("http://localhost:5173/dashboard?status=success"),
-		CancelURL:  stripe.String("http://localhost:5173/dashboard?status=canceled"),
+		SuccessURL: stripe.String("https://go-react-stripe-microservices.vercel.app/dashboard?status=success"),
+		CancelURL:  stripe.String("https://go-react-stripe-microservices.vercel.app/dashboard?status=canceled"),
 	}
 
 	s, err := session.New(params)
