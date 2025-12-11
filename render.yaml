@@ -1,0 +1,78 @@
+services:
+  # -----------------------------
+  # 1. API Gateway
+  # -----------------------------
+  - type: web
+    name: api-gateway
+    env: docker
+    plan: free
+    dockerContext: .
+    dockerfilePath: Dockerfile
+    buildArgs:
+      - name: SERVICE_PATH
+        value: backend/api-gateway
+    envVars:
+      - key: PORT
+        value: 8080
+      - key: AUTH_SERVICE_URL
+        value: http://auth-service:8083
+      - key: PAYMENT_SERVICE_URL
+        value: http://payment-service:8081
+      - key: WEBHOOK_SERVICE_URL
+        value: http://webhook-service:8082
+
+  # -----------------------------
+  # 2. Auth Service
+  # -----------------------------
+  - type: pservice
+    name: auth-service
+    env: docker
+    plan: free
+    dockerContext: .
+    dockerfilePath: Dockerfile
+    buildArgs:
+      - name: SERVICE_PATH
+        value: backend/auth-service
+    envVars:
+      - key: PORT
+        value: 8083
+      - key: MONGO_URI
+        sync: false
+
+  # -----------------------------
+  # 3. Payment Service
+  # -----------------------------
+  - type: pservice
+    name: payment-service
+    env: docker
+    plan: free
+    dockerContext: .
+    dockerfilePath: Dockerfile
+    buildArgs:
+      - name: SERVICE_PATH
+        value: backend/payment-service
+    envVars:
+      - key: PORT
+        value: 8081
+      - key: STRIPE_SECRET_KEY
+        sync: false
+
+  # -----------------------------
+  # 4. Webhook Service
+  # -----------------------------
+  - type: web
+    name: webhook-service
+    env: docker
+    plan: free
+    dockerContext: .
+    dockerfilePath: Dockerfile
+    buildArgs:
+      - name: SERVICE_PATH
+        value: backend/webhook-service
+    envVars:
+      - key: PORT
+        value: 8082
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      - key: MONGO_URI
+        sync: false
