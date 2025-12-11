@@ -24,7 +24,7 @@ services:
   # -----------------------------
   # 2. Auth Service
   # -----------------------------
-  - type: pservice
+  - type: web
     name: auth-service
     env: docker
     plan: free
@@ -42,7 +42,7 @@ services:
   # -----------------------------
   # 3. Payment Service
   # -----------------------------
-  - type: pservice
+  - type: web
     name: payment-service
     env: docker
     plan: free
