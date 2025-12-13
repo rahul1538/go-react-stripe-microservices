@@ -13,7 +13,6 @@ import (
 
 func main() {
 	// 1. Load Environment Variables (Optional but recommended for local dev)
-	// This helps read the .env file if it's not automatically loaded
 	if err := godotenv.Load(); err != nil {
 		log.Println("No .env file found, relying on system env variables")
 	}
@@ -21,12 +20,10 @@ func main() {
 	// 2. Load JWT secret
 	jwtSecret := os.Getenv("JWT_SECRET")
 	if jwtSecret == "" {
-		// For local testing, you might want a fallback, but strictly:
 		log.Fatal("JWT_SECRET environment variable not set")
 	}
 
 	// 3. Connect to Database (MongoDB or Postgres)
-	// Ensure your config package has a ConnectDB function
 	err := config.ConnectDB()
 	if err != nil {
 		log.Fatalf("Database connection failed: %v", err)
@@ -37,16 +34,20 @@ func main() {
 	// utils.InitUtils()
 
 	// 5. Setup Routes
-	// Ensure routes.SetupRoutes accepts the secret or handle it inside the package
 	r := routes.SetupRoutes(jwtSecret)
 
 	// 6. Start Server
+	// FIX: Ensure it runs on the port specified by the environment variable (Render requirement)
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8083" // Default fallback
+		// Use a common default for local dev if PORT is not set
+		port = "8080"
 	}
 
+	// Log the actual port being used
 	log.Printf("Auth-service running on port %s", port)
+
+	// Run on the derived port
 	if err := r.Run(":" + port); err != nil {
 		log.Fatalf("Failed to run server: %v", err)
 	}
